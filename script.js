@@ -8,6 +8,7 @@ document.getElementById("windowCreate").addEventListener("click", function() {
   windowsClone.style.marginLeft = ++pLeft + "rem";
   windowsContainer.appendChild(windowsClone);
   closeFunction();
+  minimizeFunction();
 });
 
 function closeFunction() {
@@ -18,8 +19,25 @@ function closeFunction() {
   });
 }
 
-function minimizeFunction(){
-    document.querySelectorAll
+function minimizeFunction() {
+  document
+    .querySelectorAll(".fa-window-minimize")
+    .forEach(function(minimizebtns, index) {
+      console.log(index);
+      minimizebtns.addEventListener("click", function() {
+        this.parentNode.nextSibling.nextSibling.style.display = "none";
+        Object.assign(this.parentNode.parentNode.style, {
+          // position: "absolute",
+          height: "2.5rem",
+          width: "14rem",
+          bottom: 0,
+          margin: "1rem",
+          left: index + "rem"
+        });
+      });
+    });
 }
 
 closeFunction();
+
+minimizeFunction();
