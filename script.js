@@ -3,14 +3,18 @@ var desktop = document.querySelector(".desktop");
 var windowsContainer = document.getElementById("windowsContainer");
 var pLeft = 1;
 
+//create new window
 document.getElementById("windowCreate").addEventListener("click", function() {
   var windowsClone = windows.cloneNode(true);
   windowsClone.style.marginLeft = ++pLeft + "rem";
   windowsContainer.appendChild(windowsClone);
+  //append functionalities to all the new windows created
   closeFunction();
   minimizeFunction();
 });
+function getOriginalSize() {}
 
+//close button code
 function closeFunction() {
   document.querySelectorAll(".fa-window-close").forEach(function(closebtns) {
     closebtns.addEventListener("click", function() {
@@ -19,6 +23,7 @@ function closeFunction() {
   });
 }
 
+//minimize button code
 function minimizeFunction() {
   document
     .querySelectorAll(".fa-window-minimize")
@@ -38,6 +43,20 @@ function minimizeFunction() {
     });
 }
 
+// maximize button code
+function maximizeFunction() {}
+
+// code to bring the box to the front when clicked
+function bringToFront(box) {
+  document.querySelectorAll(".windows").forEach(function(boxes) {
+    boxes.style.zIndex = 0;
+  });
+  box.style.zIndex = 1;
+}
+
+// call all functions
 closeFunction();
 
 minimizeFunction();
+
+maximizeFunction();
