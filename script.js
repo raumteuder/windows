@@ -7,10 +7,17 @@ var pLeft = 1;
 document.getElementById("windowCreate").addEventListener("click", function() {
   var windowsClone = windows.cloneNode(true);
   windowsClone.style.marginLeft = ++pLeft + "rem";
+  let randomColor = "#" + (((1 << 24) * Math.random()) | 0).toString(16);
+  windowsClone.style.background = randomColor;
+  Object.assign(windowsClone.style, {
+    background: randomColor,
+    opacity: 0.9
+  });
   windowsContainer.appendChild(windowsClone);
   //append functionalities to all the new windows created
   closeFunction();
   minimizeFunction();
+  maximizeFunction();
 });
 function getOriginalSize() {}
 
@@ -44,7 +51,16 @@ function minimizeFunction() {
 }
 
 // maximize button code
-function maximizeFunction() {}
+function maximizeFunction() {
+  document
+    .querySelectorAll(".fa-window-maximize")
+    .forEach(function(maximizebtns, index) {
+      maximizebtns.addEventListener("click", function() {
+        this.parentNode.parentNode.style.height = "90vh";
+        this.parentNode.parentNode.style.width = "95vw";
+      });
+    });
+}
 
 // code to bring the box to the front when clicked
 function bringToFront(box) {
