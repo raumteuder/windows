@@ -61,3 +61,36 @@ div.window-content {
   vertical-align: bottom;
   background-color: white;
 }
+
+.fa-window-restore {
+  display: none;
+}
+
+.menu {
+  width: 150px;
+  box-shadow: 3px 3px 5px #888888;
+  border-style: solid;
+  border-width: 1px;
+  border-color: grey;
+  border-radius: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  position: fixed;
+  display: none;
+  text-align: center;
+}
+
+.menu-item {
+  height: 20px;
+}
+
+.menu-item:hover {
+  background-color: #6cb5ff;
+  cursor: pointer;
+}
+
+input[type="file"] {
+  display: none;
+}
