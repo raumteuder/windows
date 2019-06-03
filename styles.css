@@ -36,6 +36,7 @@ div.icons > i {
   opacity: 0.8;
   cursor: pointer;
   padding-left: 0.3rem;
+  color: white;
 }
 
 div.icons > i:hover {

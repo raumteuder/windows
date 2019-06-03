@@ -9,6 +9,14 @@ var pLeft = 0.2;
 var ogHeight = [],
   ogWidth = [];
 getOriginalSize(windows);
+
+var ourWindow = {
+  height: "",
+  width: "",
+  minimizeFunction: function() {},
+  maximizeFunction: function() {},
+  closeFunction
+};
 //create new window
 document.getElementById("windowCreate").addEventListener("click", function() {
   var windowsClone = windows.cloneNode(true);
@@ -50,7 +58,6 @@ function minimizeFunction() {
       minimizebtns.addEventListener("click", function() {
         this.parentNode.nextSibling.nextSibling.style.display = "none";
         Object.assign(this.parentNode.parentNode.style, {
-          // position: "absolute",
           height: "2.5rem",
           width: "14rem",
           bottom: 0,
@@ -75,7 +82,7 @@ function maximizeFunction() {
         this.parentNode.nextSibling.nextSibling.style.display = "inline-block";
         restoreFunction();
         this.style.display = "none";
-        this.nextSibling.nextSibling.style.display = "inline";
+        this.nextSibling.nextSibling.style.display = "inline-block";
       });
     });
 }
@@ -138,8 +145,8 @@ function elementDrag(e) {
   // set the element to the new calculated
   // e.target.style.left = 0;
   // e.target.style.top = 0;
-  e.target.style.top = e.target.offsetTop - pos2 + "px";
-  e.target.style.left = e.target.offsetLeft - pos1 + "px";
+  elemnt.top = elemnt.offsetTop - pos2 + "px";
+  elemnt.left = elemnt.offsetLeft - pos1 + "px";
 }
 function closeDragElement() {
   // stop moving when the mouse button is released
@@ -216,7 +223,10 @@ function previewUpload() {
 
   reader.onloadend = function() {
     Object.assign(document.querySelector(".desktop").style, {
-      background: "url(" + reader.result + ")"
+      background: "url(" + reader.result + ")",
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: "center",
+      backgroundSize: "cover"
     });
     localStorage.setItem("bground", reader.result);
   };
