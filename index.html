@@ -16,10 +16,14 @@
   <body oncontextmenu="return false;">
     <div class="desktop">
       <div class="create-window" id="windowCreate">
-        <i class="fas fa-folder-plus fa-2x"></i>
+        <i class="fas fa-folder-plus fa-2x" id="newWindowCreate"></i>
       </div>
       <div class="windows-container" id="windowsContainer">
-        <div class="windows" id="windows" onClick="bringToFront(this)">
+        <div
+          class="windows hidden"
+          id="originalWindow"
+          onClick="bringToFront(this)"
+        >
           <div class="icons">
             <i class="fas fa-window-minimize"></i>
             <i class="fas fa-window-maximize"></i>
