@@ -1,4 +1,8 @@
 objects = [];
+
+
+var $ = function (val) { return document.querySelector(val) }
+
 // var dragManager;
 var elemnt;
 function dragMouseDown(e) {
@@ -20,9 +24,6 @@ function elementDrag(e) {
     pos2 = pos4 - e.clientY;
     pos3 = e.clientX;
     pos4 = e.clientY;
-    // set the element to the new calculated
-    // e.target.style.left = 0;
-    // e.target.style.top = 0;
     elemnt.style.top = elemnt.offsetTop - pos2 + "px";
     elemnt.style.left = elemnt.offsetLeft - pos1 + "px";
 }
@@ -31,10 +32,16 @@ function closeDragElement() {
     document.onmouseup = null;
     document.onmousemove = null;
 }
-var left = 300, top = 300;
-document.querySelector("#newWindowCreate").addEventListener('click', function () {
+// var left = 300, top = 300;
+$("#newWindowCreate").addEventListener('click', function () {
+    lastWindow = objects.reverse()[0];
     wid = new ourWindow();
+    console.log(lastWindow);
+    wid.id = parseInt(lastWindow.id) + 1;
+    wid.top = parseInt(lastWindow.top) + 10 + "px";
+    wid.left = parseInt(lastWindow.left) + 10 + "px";
     wid._render();
+    objects.push(wid);
 })
 function bootLoader() {
     var collection = JSON.parse(localStorage.getItem('windows'));
@@ -46,7 +53,6 @@ function bootLoader() {
     } else {
 
         collection.forEach(function (propertyCollection) {
-            console.log(propertyCollection);
             myWindow = new ourWindow(propertyCollection);
             objects.push(myWindow);
             myWindow._render();
@@ -59,60 +65,69 @@ function save() {
     var collection = [];
     objects.forEach(function (windowObject) {
         collection.push({
+            id: windowObject.id,
             top: windowObject.top,
             left: windowObject.left,
             height: windowObject.height,
             width: windowObject.width,
+            zIndex: windowObject.zIndex,
             state: windowObject.state
         })
     })
     localStorage.setItem('windows', JSON.stringify(collection))
 }
 
-setInterval(save, 1000);
+setInterval(save, 5000);
 
 var left = 200;
 
 function ourWindow(propertyCollection) {
-    var orginalWindow = document.querySelector('#originalWindow');
+    var orginalWindow = $('#originalWindow');
     this.newWindowMarkup = orginalWindow.cloneNode(true);
     this.objectId = "window-1";
-
     this.default = {
-        height: 400,
-        width: 600,
-        top: 200,
-        left: left++,
+        id: 0,
+        height: '400px',
+        width: '500px',
+        top: '20px',
+        left: '20px',
+        zIndex: 0,
         state: 'normal'
     }
 
     if (!propertyCollection) {
         propertyCollection = this.default;
     }
-
+    this.id = propertyCollection.id;
     this.height = propertyCollection.height;
     this.width = propertyCollection.width;
     this.top = propertyCollection.top;
     this.left = propertyCollection.left;
+    this.zIndex = propertyCollection.zIndex;
     this.state = propertyCollection.state;
 
-    // this.setLeft = function (left) {
-    //     this.default.left = ++left;
-    // }
-
-
     this.minimize = function () {
-        this.newWindowMarkup.style.top = "93vh";
-        this.newWindowMarkup.style.left = "3rem";
-        this.newWindowMarkup.style.height = "2.5rem";
-        this.newWindowMarkup.style.width = "10rem";
+        console.log(this.height);
+        Object.assign(this.newWindowMarkup.style, {
+            top: "93vh",
+            left: "3rem",
+            height: "2.5rem",
+            width: "10rem"
+        })
     }
     this.maximize = function () {
-        this.newWindowMarkup.style.height = "90vh";
-        this.newWindowMarkup.style.width = "98vw";
+        Object.assign(this.newWindowMarkup.style, {
+            height: "90vh",
+            width: "99vw",
+            top: 0,
+            left: 0
+        })
     }
     this.restore = function () {
-
+        Object.assign(this.newWindowMarkup.style, {
+            height: this.height,
+            width: this.width
+        })
     }
     this.close = function () {
         this.newWindowMarkup.style.display = "none";
@@ -121,11 +136,20 @@ function ourWindow(propertyCollection) {
     this._render = function () {
         var thisWindow = this;
         this.newWindowMarkup.setAttribute('id', this.objectId);
-        this.newWindowMarkup.style.height = this.height;
-        this.newWindowMarkup.style.width = this.width;
-        this.newWindowMarkup.style.top = this.top;
-        this.newWindowMarkup.style.left = this.left;
-        this.newWindowMarkup.style.display = 'block';
+        Object.assign(this.newWindowMarkup.style, {
+            height: this.height,
+            width: this.width,
+            top: this.top,
+            left: this.left,
+            display: 'block'
+        })
+        // this.newWindowMarkup.style.height = this.height;
+        // this.newWindowMarkup.style.width = this.width;
+        // this.newWindowMarkup.style.top = this.top;
+        // this.newWindowMarkup.style.left = this.left;
+        // this.newWindowMarkup.style.display = 'block';
+
+
         this.newWindowMarkup.querySelector('.fa-window-minimize').addEventListener('click', function () {
             handlers.minimizeHandler(thisWindow);
             console.log(thisWindow.state);
@@ -141,7 +165,7 @@ function ourWindow(propertyCollection) {
             handlers.closeHandler(thisWindow);
         });
         this.newWindowMarkup.addEventListener('mousedown', dragMouseDown);
-        document.querySelector('.desktop').append(this.newWindowMarkup);
+        $('.desktop').append(this.newWindowMarkup);
 
     }
 
@@ -154,19 +178,22 @@ handlers = new function () {
     }
     this.minimizeHandler = function (win) {
         win.newWindowMarkup.querySelector('#content').style.display = "none";
+        win.newWindowMarkup.querySelector('.fa-window-restore').style.display = "inline";
+        win.newWindowMarkup.querySelector('.fa-window-maximize').style.display = "none";
         win.minimize();
         this.stateHandler(win, 'minimized');
     }
     this.maximizeHandler = function (win) {
-        win.maximize();
+        win.newWindowMarkup.querySelector('#content').style.display = "block";
         win.newWindowMarkup.querySelector('.fa-window-restore').style.display = "inline";
         win.newWindowMarkup.querySelector('.fa-window-maximize').style.display = "none";
+        win.maximize();
         this.stateHandler(win, 'maximized');
     }
     this.restoreHandler = function (win) {
-        win.restore();
         win.newWindowMarkup.querySelector('.fa-window-maximize').style.display = "inline";
         win.newWindowMarkup.querySelector('.fa-window-restore').style.display = "none";
+        win.restore();
         this.stateHandler(win, 'restored');
     }
     this.closeHandler = function (win) {
