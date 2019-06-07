@@ -31,10 +31,25 @@ div.create-window {
   position: absolute;
   z-index: 100;
 }
+.clear-fix {
+  clear: both;
+}
 div.icons {
-  text-align: end;
+  float: right;
+  /* text-align: end; */
   margin-right: 1rem;
   padding-top: 0.5rem;
+}
+div.header-text {
+  float: left;
+  color: white;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  margin-top: 8px;
+  margin-left: 8px;
+  cursor: pointer;
 }
 div.icons > i {
   opacity: 0.8;

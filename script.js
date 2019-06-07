@@ -5,9 +5,11 @@ var $ = function (val) { return document.querySelector(val) }
 
 // var dragManager;
 var elemnt;
-function dragMouseDown(e) {
+function dragMouseDown(windowObj, e) {
     e = e || window.event;
-    elemnt = this;
+    thisWindowObj = windowObj;
+    console.log(windowObj.newWindowMarkup);
+    elemnt = windowObj.newWindowMarkup;
     e.preventDefault();
     //mouse position at startup
     pos3 = e.clientX;
@@ -27,6 +29,8 @@ function elementDrag(e) {
     pos4 = e.clientY;
     elemnt.style.top = elemnt.offsetTop - pos2 + "px";
     elemnt.style.left = elemnt.offsetLeft - pos1 + "px";
+    thisWindowObj.top = elemnt.offsetTop - pos2 + "px"
+    thisWindowObj.left = elemnt.offsetLeft - pos1 + "px"
 }
 function closeDragElement() {
     // stop moving when the mouse button is released
@@ -92,7 +96,7 @@ function save() {
     localStorage.setItem('windows', JSON.stringify(collection))
 }
 
-setInterval(save, 5000);
+setInterval(save, desktop.save, 5000);
 
 var left = 200;
 
@@ -206,7 +210,10 @@ function ourWindow(propertyCollection) {
             console.log(thisWindow.state);
 
         });
-        this.newWindowMarkup.addEventListener('mousedown', dragMouseDown);
+        this.newWindowMarkup.querySelector('.header').addEventListener('mousedown', function () {
+            dragMouseDown(thisWindow, event)
+            e.stopPropagation;
+        });
         this.newWindowMarkup.addEventListener('click', function () {
             objects.forEach(function (items) {
                 items.zIndex = 0;
@@ -218,7 +225,6 @@ function ourWindow(propertyCollection) {
             )
             thisWindow.zIndex = 1;
             this.style.zIndex = 1;
-            console.log(this.newWindowMarkup);
         });
 
         $('.desktop').append(this.newWindowMarkup);

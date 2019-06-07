@@ -14,18 +14,41 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body oncontextmenu="return false;">
+    <ul class="menu hidden">
+      <li id="changeBg">
+        <a href="#">Change Background</a>
+
+        <input type="file" class="file hidden" />
+      </li>
+      <li id="changeBgSize">
+        <a href="" id="changeSize">Change Size</a>
+
+        <ul class="submenu hidden">
+          <li id="bgSizeCover"><a>Cover</a></li>
+          <li id="bgSizeContain"><a>Contain</a></li>
+        </ul>
+      </li>
+    </ul>
+
     <div class="desktop">
       <div class="create-window" id="windowCreate">
         <i class="fas fa-folder-plus fa-2x" id="newWindowCreate"></i>
       </div>
       <div class="windows-container" id="windowsContainer">
         <div class="windows hidden" id="originalWindow">
-          <div class="icons">
-            <i class="fas fa-window-minimize"></i>
-            <i class="fas fa-window-maximize"></i>
-            <i class="fas fa-window-restore"></i>
-            <i class="fas fa-window-close"></i>
+          <div class="header">
+            <div class="header-text">
+              New Window
+            </div>
+            <div class="icons">
+              <i class="fas fa-window-minimize"></i>
+              <i class="fas fa-window-maximize"></i>
+              <i class="fas fa-window-restore"></i>
+              <i class="fas fa-window-close"></i>
+            </div>
+            <div class="clear-fix"></div>
           </div>
+
           <div class="window-content" id="content"></div>
         </div>
       </div>
