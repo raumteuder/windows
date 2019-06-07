@@ -25,8 +25,11 @@ div.desktop {
   display: flex;
 }
 div.create-window {
+  background: rgba(255, 255, 255, 0.8);
   margin-bottom: 1rem;
   align-self: flex-end;
+  position: absolute;
+  z-index: 100;
 }
 div.icons {
   text-align: end;
@@ -95,4 +98,17 @@ div.window-content {
 
 input[type="file"] {
   display: none;
+}
+
+.minimized {
+  top: 93vh !important;
+  left: 3rem !important;
+  height: 2.5rem !important;
+  width: 10rem !important;
+}
+.maximized {
+  height: 90vh !important;
+  width: 99vw !important;
+  top: 0 !important;
+  left: 0 !important;
 }
