@@ -109,6 +109,7 @@ div.window-content {
   height: 20px;
   border: 1px dotted black;
   padding: 2px 1 px;
+  color: white;
 }
 
 .menu-item:hover {
