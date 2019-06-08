@@ -25,11 +25,14 @@ div.desktop {
   display: flex;
 }
 div.create-window {
-  background: rgba(255, 255, 255, 0.8);
-  margin-bottom: 1rem;
-  align-self: flex-end;
+  opacity: 0.8;
   position: absolute;
+  bottom: 1rem;
+  /* align-self: flex-end; */
   z-index: 100;
+}
+div.create-window:hover {
+  opacity: 1;
 }
 .clear-fix {
   clear: both;
@@ -68,7 +71,7 @@ div.icons > .fa-window-close:hover {
   opacity: 1;
 }
 .fa-folder-plus {
-  color: rgb(197, 171, 26);
+  color: rgb(197, 129, 26);
   cursor: pointer;
 }
 
@@ -104,6 +107,8 @@ div.window-content {
 
 .menu-item {
   height: 20px;
+  border: 1px dotted black;
+  padding: 2px 1 px;
 }
 
 .menu-item:hover {
@@ -119,7 +124,7 @@ input[type="file"] {
   top: 93vh !important;
   left: 3rem !important;
   height: 2.5rem !important;
-  width: 10rem !important;
+  width: 13rem !important;
 }
 .maximized {
   height: 90vh !important;

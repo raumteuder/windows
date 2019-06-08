@@ -13,24 +13,25 @@
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body oncontextmenu="return false;">
-    <ul class="menu hidden">
-      <li id="changeBg">
-        <a href="#">Change Background</a>
-
-        <input type="file" class="file hidden" />
-      </li>
-      <li id="changeBgSize">
-        <a href="" id="changeSize">Change Size</a>
-
-        <ul class="submenu hidden">
-          <li id="bgSizeCover"><a>Cover</a></li>
-          <li id="bgSizeContain"><a>Contain</a></li>
-        </ul>
-      </li>
-    </ul>
-
+  <body>
+    <!-- <body oncontextmenu="return false;"> -->
     <div class="desktop">
+      <!-- break
+      <ul class="menu">
+        <li id="changeBg">
+          <a href="javascript:void(0)">Change Background</a>
+
+          <input type="file" class="file hidden" />
+        </li>
+        <li id="changeBgSize">
+          <a href="" id="changeSize">Change Size</a>
+
+          <ul class="submenu">
+            <li id="bgSizeCover"><a>Cover</a></li>
+            <li id="bgSizeContain"><a>Contain</a></li>
+          </ul>
+        </li>
+      </ul> -->
       <div class="create-window" id="windowCreate">
         <i class="fas fa-folder-plus fa-2x" id="newWindowCreate"></i>
       </div>
@@ -53,16 +54,20 @@
         </div>
       </div>
       <div class="menu">
-        <div class="menu-item">Change Wallpaper</div>
+        <div class="menu-item" id="changeWall">Change Wallpaper</div>
+        <div class="menu-item options" id="toCover">Size: cover</div>
+        <div class="menu-item options" id="toContain">Size: contain</div>
       </div>
       <input
         type="file"
         name="fileToUpload"
         id="fileToUpload"
         size="1"
-        onchange="previewUpload()"
+        onchange="menu.previewUpload()"
       />
     </div>
+    <script src="desktop.js"></script>
+    <script src="menu.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

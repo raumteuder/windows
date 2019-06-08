@@ -1,9 +1,5 @@
 objects = [];
-
-
 var $ = function (val) { return document.querySelector(val) }
-
-// var dragManager;
 var elemnt;
 function dragMouseDown(windowObj, e) {
     e = e || window.event;
@@ -96,15 +92,12 @@ function save() {
     localStorage.setItem('windows', JSON.stringify(collection))
 }
 
-setInterval(save, desktop.save, 5000);
-
-var left = 200;
+setInterval(save, 5000);
 
 function ourWindow(propertyCollection) {
     var orginalWindow = $('#originalWindow');
     this.newWindowMarkup = orginalWindow.cloneNode(true);
     this.newWindowMarkup.classList.remove('hidden');
-    console.log(this);
     this.objectId = "window-1";
     this.default = {
         id: 0,
@@ -139,35 +132,29 @@ function ourWindow(propertyCollection) {
         //     height: "2.5rem",
         //     width: "10rem"
         // });
-        this.height = getComputedStyle(this.newWindowMarkup).height;
-        this.width = getComputedStyle(this.newWindowMarkup).width;
-        this.left = getComputedStyle(this.newWindowMarkup).left;
-        this.top = getComputedStyle(this.newWindowMarkup).top;
-
-        // this.newWindowMarkup.classList.add("minimized");
+        newStyle = getComputedStyle(this.newWindowMarkup)
+        this.height = newStyle.height;
+        this.width = newStyle.width;
+        this.left = newStyle.left;
+        this.top = newStyle.top;
     }
     this.maximize = function () {
-
-        // Object.assign(this.newWindowMarkup.style, {
-        //     height: "90vh",
-        //     width: "99vw",
-        //     top: 0,
-        //     left: 0
-        // })
         this.newWindowMarkup.classList.remove('minimized');
         this.newWindowMarkup.classList.add('maximized');
-        this.height = getComputedStyle(this.newWindowMarkup).height;
-        this.width = getComputedStyle(this.newWindowMarkup).width;
-        this.left = getComputedStyle(this.newWindowMarkup).left;
-        this.top = getComputedStyle(this.newWindowMarkup).top;
+        newStyle = getComputedStyle(this.newWindowMarkup)
+        this.height = newStyle.height;
+        this.width = newStyle.width;
+        this.left = newStyle.left;
+        this.top = newStyle.top;
     }
     this.restore = function () {
         this.newWindowMarkup.classList.remove("maximized");
         this.newWindowMarkup.classList.remove("minimized");
-        this.height = getComputedStyle(this.newWindowMarkup).height;
-        this.width = getComputedStyle(this.newWindowMarkup).width;
-        this.left = getComputedStyle(this.newWindowMarkup).left;
-        this.top = getComputedStyle(this.newWindowMarkup).top;
+        newStyle = getComputedStyle(this.newWindowMarkup)
+        this.height = newStyle.height;
+        this.width = newStyle.width;
+        this.left = newStyle.left;
+        this.top = newStyle.top;
     }
     this.close = function () {
         var newThis = this;
@@ -176,6 +163,10 @@ function ourWindow(propertyCollection) {
             return (item.id != newThis.id)
         })
         delete (this);
+        if (objects.length == 0) {
+            objects = [];
+            localStorage.removeItem('windows');
+        }
         this.newWindowMarkup.style.display = "none";
     }
 
@@ -212,7 +203,7 @@ function ourWindow(propertyCollection) {
         });
         this.newWindowMarkup.querySelector('.header').addEventListener('mousedown', function () {
             dragMouseDown(thisWindow, event)
-            e.stopPropagation;
+            event.stopPropagation;
         });
         this.newWindowMarkup.addEventListener('click', function () {
             objects.forEach(function (items) {
