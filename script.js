@@ -1,228 +1,265 @@
-var windows = document.getElementById("windows");
-var desktop = document.querySelector(".desktop");
-var windowsContainer = document.getElementById("windowsContainer");
+objects = [];
+var $ = function (val) { return document.querySelector(val) }
+var elemnt;
+function dragMouseDown(windowObj, e) {
+    e = e || window.event;
+    thisWindowObj = windowObj;
+    console.log(windowObj.newWindowMarkup);
+    elemnt = windowObj.newWindowMarkup;
+    e.preventDefault();
+    //mouse position at startup
+    pos3 = e.clientX;
+    pos4 = e.clientY;
 
-document.querySelector(".desktop").style.background =
-  "url(" + localStorage.getItem("bground") + ")";
-
-var pLeft = 0.2;
-var ogHeight = [],
-  ogWidth = [];
-getOriginalSize(windows);
-//create new window
-document.getElementById("windowCreate").addEventListener("click", function() {
-  var windowsClone = windows.cloneNode(true);
-  let randomColor = "#" + (((1 << 24) * Math.random()) | 0).toString(16);
-  Object.assign(windowsClone.style, {
-    background: randomColor,
-    marginLeft: ++pLeft + "rem",
-    opacity: 0.9
-  });
-  windowsContainer.appendChild(windowsClone);
-  // windowsContainer.innerHTML += localStorage.getItem("windows");
-  //append functionalities to all the new windows created
-  closeFunction();
-  minimizeFunction();
-  maximizeFunction();
-  getOriginalSize(windowsClone);
-});
-
-function getOriginalSize(ogWindow) {
-  ogHeight.push(getComputedStyle(ogWindow).height);
-  ogWidth.push(getComputedStyle(ogWindow).width);
-  console.log(ogHeight);
-}
-
-//close button code
-function closeFunction() {
-  document.querySelectorAll(".fa-window-close").forEach(function(closebtns) {
-    closebtns.addEventListener("click", function() {
-      this.parentNode.parentNode.style.display = "none";
-    });
-  });
-}
-
-//minimize button code
-function minimizeFunction() {
-  document
-    .querySelectorAll(".fa-window-minimize")
-    .forEach(function(minimizebtns, index) {
-      minimizebtns.addEventListener("click", function() {
-        this.parentNode.nextSibling.nextSibling.style.display = "none";
-        Object.assign(this.parentNode.parentNode.style, {
-          // position: "absolute",
-          height: "2.5rem",
-          width: "14rem",
-          bottom: 0,
-          margin: "1rem",
-          left: index + "rem"
-        });
-      });
-    });
-}
-
-// maximize button code
-function maximizeFunction() {
-  document
-    .querySelectorAll(".fa-window-maximize")
-    .forEach(function(maximizebtns, index) {
-      maximizebtns.addEventListener("click", function() {
-        Object.assign(this.parentNode.parentNode.style, {
-          height: "90vh",
-          width: "95vw",
-          marginLeft: "0"
-        });
-        this.parentNode.nextSibling.nextSibling.style.display = "inline-block";
-        restoreFunction();
-        this.style.display = "none";
-        this.nextSibling.nextSibling.style.display = "inline";
-      });
-    });
-}
-
-// code to bring the box to the front when clicked
-function bringToFront(box) {
-  document.querySelectorAll(".windows").forEach(function(boxes) {
-    boxes.style.zIndex = 0;
-  });
-  box.style.zIndex = 1;
-}
-
-//restore window to original size
-function restoreFunction() {
-  document
-    .querySelectorAll(".fa-window-restore")
-    .forEach(function(restorebtns, index) {
-      restorebtns.addEventListener("click", function() {
-        console.log(ogHeight);
-        Object.assign(this.parentNode.parentNode.style, {
-          height: ogHeight[index],
-          width: ogWidth[index]
-        });
-        this.style.display = "none";
-        this.previousSibling.previousSibling.style.display = "inline";
-      });
-    });
-}
-// make window draggable
-function dragElement(elemnt) {
-  var pos1 = 0,
-    pos2 = 0,
-    pos3 = 0,
-    pos4 = 0;
-  // if (windows) {
-  //   windows.onmousedown = dragMouseDown;
-  // } else {
-  //   elemnt.onmousedown = dragMouseDown;
-  // }
-  elemnt.onmousedown = dragMouseDown;
-}
-function dragMouseDown(e) {
-  e = e || window.event;
-  e.preventDefault();
-  //mouse position at startup
-  pos3 = e.clientX;
-  pos4 = e.clientY;
-  document.onmouseup = closeDragElement;
-  // call function when mouse moves
-  document.onmousemove = elementDrag;
+    document.onmouseup = closeDragElement;
+    // call function when mouse moves
+    document.onmousemove = elementDrag;
 }
 function elementDrag(e) {
-  e = e || window.event;
-  e.preventDefault();
-  // calculate new cursor position
-  pos1 = pos3 - e.clientX;
-  pos2 = pos4 - e.clientY;
-  pos3 = e.clientX;
-  pos4 = e.clientY;
-  // set the element to the new calculated
-  // e.target.style.left = 0;
-  // e.target.style.top = 0;
-  e.target.style.top = e.target.offsetTop - pos2 + "px";
-  e.target.style.left = e.target.offsetLeft - pos1 + "px";
+    e = e || window.event;
+    e.preventDefault();
+    // calculate new cursor position
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    elemnt.style.top = elemnt.offsetTop - pos2 + "px";
+    elemnt.style.left = elemnt.offsetLeft - pos1 + "px";
+    thisWindowObj.top = elemnt.offsetTop - pos2 + "px"
+    thisWindowObj.left = elemnt.offsetLeft - pos1 + "px"
 }
 function closeDragElement() {
-  // stop moving when the mouse button is released
-  document.onmouseup = null;
-  document.onmousemove = null;
+    // stop moving when the mouse button is released
+    document.onmouseup = null;
+    document.onmousemove = null;
 }
+// var left = 300, top = 300;
+$("#newWindowCreate").addEventListener('click', function () {
+    lastWindow = objects.reverse()[0];
+    wid = new ourWindow();
+    wid.id = parseInt(lastWindow.id) + 1;
+    wid.top = parseInt(lastWindow.top) + 10 + "px";
+    wid.left = parseInt(lastWindow.left) + 10 + "px";
+    wid._render();
+    objects.push(wid);
+})
+function bootLoader() {
+    var collection = JSON.parse(localStorage.getItem('windows'));
+    if (collection == null || localStorage.getItem('windows') == "[{}]" || localStorage.getItem('windows') == "[]") {
+        myWindow = new ourWindow();
+        objects.push(myWindow);
+        myWindow._render();
+    } else {
 
-// call all functions
-closeFunction();
-
-minimizeFunction();
-
-maximizeFunction();
-
-dragElement(windows);
-
-//wallpaper
-
-// console.log(
-//   document.querySelector(".desktop:not(.desktop>.windows-container)")
-// );
-
-// window.oncontextmenu = function() {
-//   alert("Right Click");
-// };
-
-//code to display menu where clicked
-var menuDisplayed = false;
-var menuBox = null;
-
-window.addEventListener(
-  "contextmenu",
-  function() {
-    console.log(arguments[0]);
-    var left = arguments[0].clientX;
-    var top = arguments[0].clientY;
-
-    menuBox = document.querySelector(".menu");
-    menuBox.style.left = left + "px";
-    menuBox.style.top = top + "px";
-    menuBox.style.display = "block";
-
-    arguments[0].preventDefault();
-
-    menuDisplayed = true;
-  },
-  false
-);
-
-window.addEventListener(
-  "click",
-  function() {
-    if (menuDisplayed == true) {
-      menuBox.style.display = "none";
+        collection.forEach(function (propertyCollection) {
+            myWindow = new ourWindow(propertyCollection);
+            objects.push(myWindow);
+            myWindow._render();
+        })
     }
-  },
-  true
-);
 
-windows.addEventListener("contextmenu", e => {
-  e.preventDefault();
-  e.stopPropagation();
-});
-
-// code to handle uploaded image and append it as image
-document.querySelector(".menu-item").addEventListener("click", function() {
-  document.querySelector("#fileToUpload").click();
-});
-document.querySelector(".desktop").style.background =
-  "url(" + reader.result + ")";
-function previewUpload() {
-  var file = document.querySelector("input[type=file]").files[0];
-  var reader = new FileReader();
-
-  reader.onloadend = function() {
-    Object.assign(document.querySelector(".desktop").style, {
-      background: "url(" + reader.result + ")"
-    });
-    localStorage.setItem("bground", reader.result);
-  };
-  if (file) {
-    reader.readAsDataURL(file);
-  } else {
-    alert("please choose a valid file");
-  }
+    // if (!!collection) {
+    //     collection.forEach(function (propertyCollection) {
+    //         myWindow = new ourWindow(propertyCollection);
+    //         objects.push(myWindow);
+    //         myWindow._render();
+    //     })
+    // }
+    // else {
+    //     myWindow = new ourWindow();
+    //     alert('hello');
+    //     objects.push(myWindow);
+    //     myWindow._render();
+    // }
 }
+
+bootLoader();
+
+function save() {
+    var collection = [];
+    objects.forEach(function (windowObject) {
+        collection.push({
+            id: windowObject.id,
+            top: windowObject.top,
+            left: windowObject.left,
+            height: windowObject.height,
+            width: windowObject.width,
+            zIndex: windowObject.zIndex,
+            state: windowObject.state
+        })
+
+    })
+    localStorage.setItem('windows', JSON.stringify(collection))
+}
+
+setInterval(save, 5000);
+
+function ourWindow(propertyCollection) {
+    var orginalWindow = $('#originalWindow');
+    this.newWindowMarkup = orginalWindow.cloneNode(true);
+    this.newWindowMarkup.classList.remove('hidden');
+    this.objectId = "window-1";
+    this.default = {
+        id: 0,
+        height: '400px',
+        width: '500px',
+        top: '20px',
+        left: '20px',
+        zIndex: 0,
+        state: 'normal'
+    }
+
+    if (!propertyCollection) {
+        propertyCollection = this.default;
+    }
+    this.id = propertyCollection.id;
+    this.height = propertyCollection.height;
+    this.width = propertyCollection.width;
+    this.top = propertyCollection.top;
+    this.left = propertyCollection.left;
+    this.zIndex = propertyCollection.zIndex;
+    this.state = propertyCollection.state;
+
+    var originalState = [{}];
+
+    this.minimize = function () {
+        // originalState.push({ id: this.id, left: this.left, top: this.top, height: this.height, width: this.width })
+        this.newWindowMarkup.classList.remove('maximized');
+        this.newWindowMarkup.classList.add('minimized');
+        // Object.assign(this.newWindowMarkup.style, {
+        //     top: "93vh",
+        //     left: "3rem",
+        //     height: "2.5rem",
+        //     width: "10rem"
+        // });
+        newStyle = getComputedStyle(this.newWindowMarkup)
+        this.height = newStyle.height;
+        this.width = newStyle.width;
+        this.left = newStyle.left;
+        this.top = newStyle.top;
+    }
+    this.maximize = function () {
+        this.newWindowMarkup.classList.remove('minimized');
+        this.newWindowMarkup.classList.add('maximized');
+        newStyle = getComputedStyle(this.newWindowMarkup)
+        this.height = newStyle.height;
+        this.width = newStyle.width;
+        this.left = newStyle.left;
+        this.top = newStyle.top;
+    }
+    this.restore = function () {
+        this.newWindowMarkup.classList.remove("maximized");
+        this.newWindowMarkup.classList.remove("minimized");
+        newStyle = getComputedStyle(this.newWindowMarkup)
+        this.height = newStyle.height;
+        this.width = newStyle.width;
+        this.left = newStyle.left;
+        this.top = newStyle.top;
+    }
+    this.close = function () {
+        var newThis = this;
+        this.newWindowMarkup.remove();
+        objects = objects.filter(function (item) {
+            return (item.id != newThis.id)
+        })
+        delete (this);
+        if (objects.length == 0) {
+            objects = [];
+            localStorage.removeItem('windows');
+        }
+        this.newWindowMarkup.style.display = "none";
+    }
+
+    this._render = function () {
+        var thisWindow = this;
+        this.newWindowMarkup.setAttribute('id', this.objectId);
+        Object.assign(this.newWindowMarkup.style, {
+            height: this.height,
+            width: this.width,
+            top: this.top,
+            left: this.left,
+            display: 'block'
+        })
+
+        this.newWindowMarkup.querySelector('.fa-window-minimize').addEventListener('click', function () {
+            console.log(thisWindow);
+            handlers.minimizeHandler(thisWindow);
+            console.log(thisWindow);
+            console.log(thisWindow.state);
+        });
+        this.newWindowMarkup.querySelector('.fa-window-maximize').addEventListener('click', function () {
+            handlers.maximizeHandler(thisWindow);
+            console.log(thisWindow.state);
+        });
+
+        this.newWindowMarkup.querySelector('.fa-window-restore').addEventListener('click', function () {
+            handlers.restoreHandler(thisWindow);
+            console.log(thisWindow.state);
+        });
+        this.newWindowMarkup.querySelector('.fa-window-close').addEventListener('click', function () {
+            handlers.closeHandler(thisWindow);
+            console.log(thisWindow.state);
+
+        });
+        this.newWindowMarkup.querySelector('.header').addEventListener('mousedown', function () {
+            dragMouseDown(thisWindow, event)
+            event.stopPropagation;
+        });
+        this.newWindowMarkup.addEventListener('click', function () {
+            objects.forEach(function (items) {
+                items.zIndex = 0;
+            })
+            document.querySelectorAll('.windows').forEach(
+                function (divs) {
+                    divs.style.zIndex = 0;
+                }
+            )
+            thisWindow.zIndex = 1;
+            this.style.zIndex = 1;
+        });
+
+        $('.desktop').append(this.newWindowMarkup);
+
+        if (this.state == "minimized") {
+            this.newWindowMarkup.querySelector("#content").classList.add('hidden');
+        }
+        else {
+            this.newWindowMarkup.querySelector("#content").classList.remove('hidden');
+        }
+
+    }
+
+
+}
+
+handlers = new function () {
+    this.stateHandler = function (win, state) {
+        win.state = state;
+    }
+    this.minimizeHandler = function (win) {
+        win.newWindowMarkup.querySelector('#content').style.display = "none";
+        win.newWindowMarkup.querySelector('.fa-window-restore').style.display = "inline";
+        win.newWindowMarkup.querySelector('.fa-window-maximize').style.display = "none";
+        win.minimize();
+        this.stateHandler(win, 'minimized');
+    }
+    this.maximizeHandler = function (win) {
+        win.newWindowMarkup.querySelector('#content').style.display = "block";
+        win.newWindowMarkup.querySelector('.fa-window-restore').style.display = "inline";
+        win.newWindowMarkup.querySelector('.fa-window-maximize').style.display = "none";
+        win.maximize();
+        this.stateHandler(win, 'maximized');
+    }
+    this.restoreHandler = function (win) {
+        win.newWindowMarkup.querySelector('.fa-window-maximize').style.display = "inline";
+        win.newWindowMarkup.querySelector('.fa-window-restore').style.display = "none";
+        win.newWindowMarkup.querySelector('#content').style.display = "block";
+        win.restore();
+        this.stateHandler(win, 'restored');
+    }
+    this.closeHandler = function (win) {
+        win.close();
+        this.stateHandler(win, 'closed');
+    }
+}
+

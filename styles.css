@@ -6,10 +6,11 @@
   border-radius: 10%;
   cursor: pointer;
 } */
+.hidden {
+  display: none;
+}
 
 div.windows {
-  width: 50rem;
-  height: 30rem;
   border: 1px solid black;
   background-color: blue;
   border-radius: 3px;
@@ -24,18 +25,40 @@ div.desktop {
   display: flex;
 }
 div.create-window {
-  margin-bottom: 1rem;
-  align-self: flex-end;
+  opacity: 0.8;
+  position: absolute;
+  bottom: 1rem;
+  /* align-self: flex-end; */
+  z-index: 100;
+}
+div.create-window:hover {
+  opacity: 1;
+}
+.clear-fix {
+  clear: both;
 }
 div.icons {
-  text-align: end;
+  float: right;
+  /* text-align: end; */
   margin-right: 1rem;
   padding-top: 0.5rem;
+}
+div.header-text {
+  float: left;
+  color: white;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  margin-top: 8px;
+  margin-left: 8px;
+  cursor: pointer;
 }
 div.icons > i {
   opacity: 0.8;
   cursor: pointer;
   padding-left: 0.3rem;
+  color: white;
 }
 
 div.icons > i:hover {
@@ -48,14 +71,14 @@ div.icons > .fa-window-close:hover {
   opacity: 1;
 }
 .fa-folder-plus {
-  color: rgb(197, 171, 26);
+  color: rgb(197, 129, 26);
   cursor: pointer;
 }
 
 div.window-content {
   width: 99%;
-  height: 89%;
-  margin-top: 2.6%;
+  height: 90%;
+  margin-top: 2%;
   margin-left: auto;
   margin-right: auto;
   vertical-align: bottom;
@@ -84,6 +107,8 @@ div.window-content {
 
 .menu-item {
   height: 20px;
+  border: 1px dotted black;
+  padding: 2px 1 px;
 }
 
 .menu-item:hover {
@@ -93,4 +118,17 @@ div.window-content {
 
 input[type="file"] {
   display: none;
+}
+
+.minimized {
+  top: 93vh !important;
+  left: 3rem !important;
+  height: 2.5rem !important;
+  width: 13rem !important;
+}
+.maximized {
+  height: 90vh !important;
+  width: 99vw !important;
+  top: 0 !important;
+  left: 0 !important;
 }
