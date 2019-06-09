@@ -123,7 +123,7 @@ input[type="file"] {
 
 .minimized {
   top: 93vh !important;
-  left: 3rem !important;
+  /* left: 3rem !important; */
   height: 2.5rem !important;
   width: 13rem !important;
 }
