@@ -135,7 +135,7 @@ function ourWindow(propertyCollection) {
         newStyle = getComputedStyle(this.newWindowMarkup)
         this.height = newStyle.height;
         this.width = newStyle.width;
-        this.left = newStyle.left;
+        // this.left = newStyle.left;
         this.top = newStyle.top;
     }
     this.maximize = function () {
